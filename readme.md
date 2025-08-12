@@ -31,9 +31,36 @@ docker-compose down
 
 ### 🧪 Testar as APIs
 ```bash
+
+```
+
+### Testar com curl
+```bash
 # Usar arquivo de teste
 # api.http - Exemplos para REST Client, extesão do VSCode
+# ou use o curl
+
+# Listar orders rest
+curl http://localhost:8081/api/v1/orders
+
+# Criar order rest
+curl -X POST http://localhost:8081/api/v1/orders -H "Content-Type: application/json" -d '{"description": "Order 1"}'
+
+# Listar orders com gRPC
+grpcurl -plaintext -proto proto/order.proto localhost:8082 order.OrderService/ListOrders
+
+# Criar order com gRPC
+grpcurl -plaintext -proto proto/order.proto -d '{"description": "Order 1"}' localhost:8082 order.OrderService/CreateOrder
+
+# Listar orders com GraphQL
+curl -X POST http://localhost:8080/query -H "Content-Type: application/json" -d '{"query": "query { listOrders { id desc createdAt updatedAt } }"}'
+
+# Criar order com GraphQL
+curl -X POST http://localhost:8080/query -H "Content-Type: application/json" -d '{"query": "mutation { createOrder(input: {desc: \"Nova Order via GraphQL\"}) { id desc createdAt updatedAt } }"}'
+
+
 ```
+
 
 
 #### Comandos Úteis
