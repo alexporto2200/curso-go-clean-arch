@@ -3,12 +3,12 @@
 type Order {
   id: ID!
   desc: String!
-  date: String
+  createdAt: String!
+  updatedAt: String!
 }
 
 input NewOrder {
   desc: String!
-  date: String
 }
 
 type Query {

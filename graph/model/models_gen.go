@@ -6,14 +6,14 @@ type Mutation struct {
 }
 
 type NewOrder struct {
-	Desc string  `json:"desc"`
-	Date *string `json:"date,omitempty"`
+	Desc string `json:"desc"`
 }
 
 type Order struct {
-	ID   string  `json:"id"`
-	Desc string  `json:"desc"`
-	Date *string `json:"date,omitempty"`
+	ID        string `json:"id"`
+	Desc      string `json:"desc"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
 
 type Query struct {

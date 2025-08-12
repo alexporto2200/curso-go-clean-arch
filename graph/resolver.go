@@ -1,9 +1,7 @@
 package graph
 
 import (
-	"sync"
-
-	"curso-go-clean-arch/graph/model"
+	"curso-go-clean-arch/internal/container"
 )
 
 // This file will not be regenerated automatically.
@@ -11,6 +9,12 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	mu     sync.Mutex
-	orders []*model.Order
+	container *container.Container
+}
+
+// NewResolver creates a new resolver with dependencies
+func NewResolver(container *container.Container) *Resolver {
+	return &Resolver{
+		container: container,
+	}
 }

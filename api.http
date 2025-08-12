@@ -1,0 +1,63 @@
+### Orders API - HTTP Requests Examples
+
+# ========================================
+# GraphQL API (Port 8080)
+# ========================================
+
+### List Orders (GraphQL)
+POST http://localhost:8080/query
+Content-Type: application/json
+
+{
+  "query": "query { listOrders { id desc createdAt updatedAt } }"
+}
+
+### Create Order (GraphQL)
+POST http://localhost:8080/query
+Content-Type: application/json
+
+{
+  "query": "mutation { createOrder(input: {desc: \"Nova Order via GraphQL\"}) { id desc createdAt updatedAt } }"
+}
+
+# ========================================
+# REST API (Port 8081) 
+# ========================================
+
+### List Orders (REST)
+GET http://localhost:8081/api/v1/orders
+Content-Type: application/json
+
+### Create Order (REST)
+POST http://localhost:8081/api/v1/orders
+Content-Type: application/json
+
+{
+  "description": "Nova Order via REST"
+}
+
+# ========================================
+# gRPC API (Port 8082) 
+# ========================================
+
+### List Orders (gRPC)
+grpcurl -plaintext -proto proto/order.proto localhost:8082 order.OrderService/ListOrders
+
+### Create Order (gRPC)
+grpcurl -plaintext -proto proto/order.proto -d '{"description": "Nova Order via gRPC"}' localhost:8082 order.OrderService/CreateOrder
+
+# ========================================
+# Environment Variables
+# ========================================
+
+### Database Connection
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_USER=postgres
+# DB_PASSWORD=postgres
+# DB_NAME=orders_db
+
+### Application Ports
+# GRAPHQL_PORT=8080
+# REST_PORT=8081
+# GRPC_PORT=8082

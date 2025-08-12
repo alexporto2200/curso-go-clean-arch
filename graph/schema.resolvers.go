@@ -7,30 +7,51 @@ package graph
 import (
 	"context"
 	"curso-go-clean-arch/graph/model"
-	"fmt"
-	"time"
+	"curso-go-clean-arch/internal/usecase"
 )
 
 // CreateOrder is the resolver for the createOrder field.
 func (r *mutationResolver) CreateOrder(ctx context.Context, input model.NewOrder) (*model.Order, error) {
-	r.Resolver.mu.Lock()
-	defer r.Resolver.mu.Unlock()
-
-	id := fmt.Sprintf("%d", time.Now().UnixNano())
-	newOrder := &model.Order{
-		ID:   id,
-		Desc: input.Desc,
-		Date: input.Date,
+	// Convert GraphQL input to use case input
+	createInput := usecase.CreateOrderInput{
+		Description: input.Desc,
 	}
-	r.Resolver.orders = append(r.Resolver.orders, newOrder)
-	return newOrder, nil
+
+	// Execute use case
+	output, err := r.Resolver.container.CreateOrderUseCase.Execute(ctx, createInput)
+	if err != nil {
+		return nil, err
+	}
+
+	// Convert use case output to GraphQL model
+	return &model.Order{
+		ID:        output.ID,
+		Desc:      output.Description,
+		CreatedAt: output.CreatedAt,
+		UpdatedAt: output.UpdatedAt,
+	}, nil
 }
 
 // ListOrders is the resolver for the listOrders field.
 func (r *queryResolver) ListOrders(ctx context.Context) ([]*model.Order, error) {
-	r.Resolver.mu.Lock()
-	defer r.Resolver.mu.Unlock()
-	return r.Resolver.orders, nil
+	// Execute use case
+	output, err := r.Resolver.container.ListOrdersUseCase.Execute(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Convert use case output to GraphQL models
+	var orders []*model.Order
+	for _, order := range output {
+		orders = append(orders, &model.Order{
+			ID:        order.ID,
+			Desc:      order.Description,
+			CreatedAt: order.CreatedAt,
+			UpdatedAt: order.UpdatedAt,
+		})
+	}
+
+	return orders, nil
 }
 
 // Mutation returns MutationResolver implementation.

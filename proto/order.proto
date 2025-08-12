@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "curso-go-clean-arch/proto/order";
+
+import "google/protobuf/timestamp.proto";
+
+// Order represents an order entity
+message Order {
+  string id = 1;
+  string description = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+// CreateOrderRequest represents the request for creating an order
+message CreateOrderRequest {
+  string description = 1;
+}
+
+// CreateOrderResponse represents the response for creating an order
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+// ListOrdersRequest represents the request for listing orders
+message ListOrdersRequest {
+  // Empty for now, can be extended with pagination, filters, etc.
+}
+
+// ListOrdersResponse represents the response for listing orders
+message ListOrdersResponse {
+  repeated Order orders = 1;
+  int32 total = 2;
+}
+
+// GetOrderRequest represents the request for getting a specific order
+message GetOrderRequest {
+  string id = 1;
+}
+
+// GetOrderResponse represents the response for getting a specific order
+message GetOrderResponse {
+  Order order = 1;
+}
+
+// UpdateOrderRequest represents the request for updating an order
+message UpdateOrderRequest {
+  string id = 1;
+  string description = 2;
+}
+
+// UpdateOrderResponse represents the response for updating an order
+message UpdateOrderResponse {
+  Order order = 1;
+}
+
+// DeleteOrderRequest represents the request for deleting an order
+message DeleteOrderRequest {
+  string id = 1;
+}
+
+// DeleteOrderResponse represents the response for deleting an order
+message DeleteOrderResponse {
+  bool success = 1;
+}
+
+// OrderService provides operations for managing orders
+service OrderService {
+  // CreateOrder creates a new order
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  
+  // ListOrders retrieves all orders
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse);
+  
+  // GetOrder retrieves a specific order by ID
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  
+  // UpdateOrder updates an existing order
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
+  
+  // DeleteOrder deletes an order
+  rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
+}
