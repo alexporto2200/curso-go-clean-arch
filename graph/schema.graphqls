@@ -1,0 +1,20 @@
+# GraphQL schema
+
+type Order {
+  id: ID!
+  desc: String!
+  date: String
+}
+
+input NewOrder {
+  desc: String!
+  date: String
+}
+
+type Query {
+  listOrders: [Order!]!
+}
+
+type Mutation {
+  createOrder(input: NewOrder!): Order!
+}
