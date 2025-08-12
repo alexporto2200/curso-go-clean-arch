@@ -29,12 +29,7 @@ docker-compose logs -f app
 docker-compose down
 ```
 
-### 🧪 Testar as APIs
-```bash
-
-```
-
-### Testar com curl
+### 🧪 Testar as APIs  api.http ou curl
 ```bash
 # Usar arquivo de teste
 # api.http - Exemplos para REST Client, extesão do VSCode
